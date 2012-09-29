@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Stephen King",
+    "books":
+    [
+      "Under the Dome",
+      "The Stand",
+      "Duma Key",
+    ]
+  },
+  {
+    "name": "Neal Stephenson",
+    "books":
+    [
+      "Reamde",
+      "Snow Crash",
+      "Cryptonomicon"
+    ]
+  }
+]
