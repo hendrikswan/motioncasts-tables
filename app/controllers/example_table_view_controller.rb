@@ -10,9 +10,10 @@ class ExampleTableViewController < UITableViewController
 
     # self.navigationItem.rightBarButtonItem = self.editButtonItem
 
-    Dispatch::Queue.concurrent.async {
+    Dispatch::Queue.concurrent('mc-data').async {
       authors_string = File.read("#{App.resources_path}/authors.json")
       @authors = BW::JSON.parse authors_string
+      view.reloadData
     }
   end
 
@@ -31,18 +32,24 @@ class ExampleTableViewController < UITableViewController
 
   def numberOfSectionsInTableView(tableView)
     # Return the number of sections.
-    0
+    1
   end
 
   def tableView(tableView, numberOfRowsInSection:section)
     # Return the number of rows in the section.
-    0
+    @authors ? @authors.length : 0
   end
 
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
     cellIdentifier = self.class.name
-    cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier)
-    # Configure the cell...
+    cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) || begin
+      cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:cellIdentifier)
+      cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton
+      cell
+    end
+
+    author = @authors[indexPath.row]
+    cell.textLabel.text = author['name']
     cell
   end
 
