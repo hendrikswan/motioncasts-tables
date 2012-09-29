@@ -9,6 +9,12 @@ class ExampleTableViewController < UITableViewController
     # bar for this view controller.
 
     # self.navigationItem.rightBarButtonItem = self.editButtonItem
+
+    Dispatch::Queue.concurrent.async {
+      authors_string = File.read("#{App.resources_path}/authors.json")
+      puts authors_string
+      puts "hello"
+    }
   end
 
   def viewDidUnload
