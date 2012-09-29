@@ -12,8 +12,7 @@ class ExampleTableViewController < UITableViewController
 
     Dispatch::Queue.concurrent.async {
       authors_string = File.read("#{App.resources_path}/authors.json")
-      puts authors_string
-      puts "hello"
+      @authors = BW::JSON.parse authors_string
     }
   end
 
