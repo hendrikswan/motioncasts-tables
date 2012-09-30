@@ -99,6 +99,6 @@ class ExampleTableViewController < UITableViewController
     self.navigationController.pushViewController(books_controller, animated:true)
 
     author = @authors[indexPath.row]
-    books_controller.bind_with_books(author['books'])
+    books_controller.bind_with_books(author)
   end
 end

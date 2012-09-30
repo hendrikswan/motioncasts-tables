@@ -11,8 +11,9 @@ class BooksTableViewController < UITableViewController
     # self.navigationItem.rightBarButtonItem = self.editButtonItem
   end
 
-  def bind_with_books(books)
-    @books = books
+  def bind_with_books(author)
+    @author = author
+    self.navigationItem.title = author['name']
     view.reloadData
   end
 
@@ -36,18 +37,17 @@ class BooksTableViewController < UITableViewController
 
   def tableView(tableView, numberOfRowsInSection:section)
     # Return the number of rows in the section.
-    @books ? @books.length : 0
+    @author ? @author['books'].length : 0
   end
 
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
     cellIdentifier = self.class.name
     cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) || begin
       cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:cellIdentifier)
-      cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton
       cell
     end
 
-    book = @books[indexPath.row]
+    book = @author['books'][indexPath.row]
     cell.textLabel.text = book
     cell
   end
