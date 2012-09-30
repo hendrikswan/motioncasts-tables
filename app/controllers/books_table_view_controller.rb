@@ -1,4 +1,4 @@
-class ExampleTableViewController < UITableViewController
+class BooksTableViewController < UITableViewController
   def viewDidLoad
     super
     # Uncomment the following line to preserve selection between presentations.
@@ -9,14 +9,11 @@ class ExampleTableViewController < UITableViewController
     # bar for this view controller.
 
     # self.navigationItem.rightBarButtonItem = self.editButtonItem
+  end
 
-    Dispatch::Queue.concurrent('mc-data').async {
-      authors_string = File.read("#{App.resources_path}/authors.json")
-      @authors = BW::JSON.parse authors_string
-      view.reloadData
-    }
-
-    self.navigationItem.title = "Authors"
+  def bind_with_books(books)
+    @books = books
+    view.reloadData
   end
 
   def viewDidUnload
@@ -37,11 +34,9 @@ class ExampleTableViewController < UITableViewController
     1
   end
 
-
-
   def tableView(tableView, numberOfRowsInSection:section)
     # Return the number of rows in the section.
-    @authors ? @authors.length : 0
+    @books ? @books.length : 0
   end
 
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
@@ -52,8 +47,8 @@ class ExampleTableViewController < UITableViewController
       cell
     end
 
-    author = @authors[indexPath.row]
-    cell.textLabel.text = author['name']
+    book = @books[indexPath.row]
+    cell.textLabel.text = book
     cell
   end
 
@@ -95,10 +90,9 @@ class ExampleTableViewController < UITableViewController
 ## Table view delegate
 
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
-    books_controller = BooksTableViewController.alloc.init
-    self.navigationController.pushViewController(books_controller, animated:true)
-
-    author = @authors[indexPath.row]
-    books_controller.bind_with_books(author['books'])
+    # Navigation logic may go here. Create and push another view controller.
+    # detailViewController = DetailViewController.alloc.initWithNibName("Nib name", bundle:nil)
+    # Pass the selected object to the new view controller.
+    # self.navigationController.pushViewController(detailViewController, animated:true)
   end
 end
