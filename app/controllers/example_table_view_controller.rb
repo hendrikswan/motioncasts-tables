@@ -32,12 +32,17 @@ class ExampleTableViewController < UITableViewController
 
   def numberOfSectionsInTableView(tableView)
     # Return the number of sections.
-    1
+    @authors ? @authors.length : 0
   end
+
+  def tableView(tableView, titleForHeaderInSection:section)
+    @authors[section]['name']
+  end
+
 
   def tableView(tableView, numberOfRowsInSection:section)
     # Return the number of rows in the section.
-    @authors ? @authors.length : 0
+    @authors ? @authors[section].length : 0
   end
 
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
@@ -48,8 +53,9 @@ class ExampleTableViewController < UITableViewController
       cell
     end
 
-    author = @authors[indexPath.row]
-    cell.textLabel.text = author['name']
+    author = @authors[indexPath.section]
+    book =author['books'][indexPath.row]
+    cell.textLabel.text = book
     cell
   end
 
